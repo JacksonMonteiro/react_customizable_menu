@@ -8,13 +8,9 @@ import {
 } from "./styles";
 
 import { useState, useEffect } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import standardMenu from "./utils/standard_menu.json";
-import {
-    SortableItem,
-    SortableItemProps,
-    SortableList,
-} from "@thaddeusjiang/react-sortable-list";
 const MENU = "MENU";
 
 function App() {
@@ -67,9 +63,19 @@ function App() {
         }
     };
 
+    const handleDrop = (droppedItem: any) => {
+        if (!droppedItem.destination) return;
+        let updatedList = [...menu];
+        const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1);
+        updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
+
+        setMenu(updatedList);
+        localStorage.setItem(MENU, JSON.stringify(updatedList));
+    };
+
     return (
         <Container>
-            <Navbar>
+            {/* <Navbar>
                 {menu.map((menuItem: any, i: number) => (
                     <NavbarItem key={i}>
                         {menuItem.name}
@@ -81,6 +87,51 @@ function App() {
                         </EditItemButton>
                     </NavbarItem>
                 ))}
+            </Navbar> */}
+            <Navbar>
+                <DragDropContext onDragEnd={handleDrop}>
+                    <Droppable droppableId="menu-container">
+                        {(provided) => (
+                            <div
+                                className="menu-container"
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {menu.map((item: any, index: any) => (
+                                    <Draggable
+                                        key={item.id}
+                                        draggableId={item.id}
+                                        index={index}
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                className="item-container"
+                                                ref={provided.innerRef}
+                                                {...provided.dragHandleProps}
+                                                {...provided.draggableProps}
+                                            >
+                                                <NavbarItem key={item.id}>
+                                                    {item.name}
+                                                    <EditItemButton
+                                                        contentEditable={false}
+                                                        onClick={() =>
+                                                            handleEditButtonClick(
+                                                                index
+                                                            )
+                                                        }
+                                                    >
+                                                        Editar
+                                                    </EditItemButton>
+                                                </NavbarItem>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
             </Navbar>
 
             {isEditModalopened ? (
