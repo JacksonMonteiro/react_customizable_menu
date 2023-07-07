@@ -25,9 +25,9 @@ function App() {
             setMenu(menu);
         } else {
             setMenu([
-                { id: 1, name: "Início" },
-                { id: 2, name: "Sobre nós" },
-                { id: 3, name: "Contato" },
+                { id: "1", name: "Início" },
+                { id: "2", name: "Sobre nós" },
+                { id: "3", name: "Contato" },
             ]);
 
             localStorage.setItem(MENU, JSON.stringify(standardMenu));
