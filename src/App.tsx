@@ -66,13 +66,10 @@ function App() {
             localStorage.setItem(MENU, JSON.stringify(menu));
         }
     };
-    const handleSortItem = () => {
-        console.log("Trocou o caralho do item")
-    }
 
     return (
         <Container>
-            {/* <Navbar>
+            <Navbar>
                 {menu.map((menuItem: any, i: number) => (
                     <NavbarItem key={i}>
                         {menuItem.name}
@@ -84,30 +81,6 @@ function App() {
                         </EditItemButton>
                     </NavbarItem>
                 ))}
-            </Navbar> */}
-
-            <Navbar>
-                <SortableList items={menu} setItems={setMenu} onSort={handleSortItem}>
-                    {({ items }: { items: SortableItemProps[] }) => (
-                        <>
-                            {items.map((item: SortableItemProps, index: number) => (
-                                <SortableItem key={item.id} id={item.id}>
-                                    <NavbarItem key={item.id}>
-                                        {item.name}
-                                        <EditItemButton
-                                            contentEditable={false}
-                                            onClick={() =>
-                                                handleEditButtonClick(index)
-                                            }
-                                        >
-                                            Editar
-                                        </EditItemButton>
-                                    </NavbarItem>
-                                </SortableItem>
-                            ))}
-                        </>
-                    )}
-                </SortableList>
             </Navbar>
 
             {isEditModalopened ? (
