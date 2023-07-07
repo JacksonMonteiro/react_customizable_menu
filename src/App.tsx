@@ -75,19 +75,6 @@ function App() {
 
     return (
         <Container>
-            {/* <Navbar>
-                {menu.map((menuItem: any, i: number) => (
-                    <NavbarItem key={i}>
-                        {menuItem.name}
-                        <EditItemButton
-                            contentEditable={false}
-                            onClick={() => handleEditButtonClick(i)}
-                        >
-                            Editar
-                        </EditItemButton>
-                    </NavbarItem>
-                ))}
-            </Navbar> */}
             <Navbar>
                 <DragDropContext onDragEnd={handleDrop}>
                     <Droppable droppableId="menu-container">
